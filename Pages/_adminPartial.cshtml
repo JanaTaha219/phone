@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @if (User.IsInRole("Admin"))
+    {
+        <aside class="main-sidebar sidebar-light-primary elevation-4">
+            <!-- Brand Logo -->
+            <a asp-area="" asp-page="/Dashboards/DefaultDashboard" class="brand-link">
+                <img src="~/icons/najah.jpg" alt="Invoice generator" class="brand-image" style="height: 40%; width: 40%; display: block; margin-left: auto; margin-right: auto;">
+            </a>
+
+            <div class="sidebar">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image"></div>
+                    <div class="info">
+                        <a asp-area="" asp-page="/UserProfiles/UserList" class="d-block">User Profile</a>
+                    </div>
+                </div>
+
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        
+
+                        <!-- Roles Section -->
+                        <li class="nav-item @(ViewData["Module"]?.ToString() == "Roles" ? "menu-open" : "")">
+                            <a href="#" class="nav-link @(ViewData["Module"]?.ToString() == "Roles" ? "active" : "")">
+                                <i class="nav-icon fas fa-shopping-cart"></i>
+                                <p>
+                                    Roles
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/UserRoles/ManageRoles">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add/View Roles</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/UserRoles/index">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User Role</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+    }
+</body>
+</html>

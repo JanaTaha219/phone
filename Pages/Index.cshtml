@@ -1,0 +1,513 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+
+}
+
+
+<style>
+    .text-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Ensures equal spacing */
+        width: 100%; /* Adjusted for full responsiveness */
+        max-width: 600px; /* Increased max-width for better layout */
+        height: 50px; /* Slightly taller for better visibility */
+        border: 1px solid #dcdcdc; /* Subtle border color */
+        border-radius: 25px; /* More rounded for a modern look */
+        padding: 0 15px; /* More spacious padding */
+        background-color: #f9f9f9; /* Light background for contrast */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+        margin-bottom: 15px; /* Increased spacing below */
+        gap: 10px; /* Adds space between child elements */
+        transition: box-shadow 0.3s ease; /* Smooth shadow on hover */
+    }
+
+        .search-bar:hover {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Highlight on hover */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px; /* Standard font size */
+            background-color: transparent;
+            color: #333; /* Darker text color for better contrast */
+        }
+
+        .search-bar select {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for dropdown */
+    cursor: pointer;
+}
+
+.search-bar svg {
+    width: 24px;
+    height: 24px;
+    fill: #555; /* Neutral color for the icon */
+    cursor: pointer;
+    transition: fill 0.3s ease; /* Smooth color change */
+}
+
+.search-bar svg:hover {
+    fill: #007bff; /* Highlighted icon color on hover */
+}
+
+    .results {
+        width: 100%;
+        max-width: 500px; /* Limit the max width for responsiveness */
+        list-style: none;
+        padding: 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: rgba(255, 255, 255, 0.8);
+        display: none;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+        .results.show {
+            display: block;
+        }
+
+        .results li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+            .results li:last-child {
+                border-bottom: none;
+            }
+
+            .results li:hover {
+                background-color: #f0f0f0;
+            }
+
+        .results .search-item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .results .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .results .employee-name {
+            font-weight: bold;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+    .table {
+        width: 100%; /* Ensure the table fits within the viewport */
+        border-collapse: collapse;
+        font-size: clamp(12px, 1.5vw, 14px); /* Responsive font size */
+    }
+
+        .table th, .table td {
+            padding: 8px 10px; /* Adjust padding for smaller screens */
+            text-align: right;
+        }
+
+    .modal-content {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        font-family: 'Inter', sans-serif;
+        background-color: #fff;
+        font-size: clamp(14px, 1.5vw, 16px);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        .modal-header .close {
+            background: #f5f5f5;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: #555;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+            .modal-header .close:hover {
+                background-color: #e0e0e0;
+                color: #000;
+            }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        font-size: clamp(12px, 1.5vw, 14px);
+    }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #555;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #e9ecef;
+        }
+
+
+    /* Responsive for smaller screens */
+    
+    @@media (max-width: 768px) {
+        .search-bar
+
+    {
+        flex-direction: column; /* Stack elements vertically */
+        height: auto;
+        padding: 10px;
+    }
+
+    .results {
+        max-width: 100%; /* Utilize full width */
+    }
+
+    .table th, .table td {
+        padding: 6px 8px; /* Reduced padding for smaller devices */
+    }
+
+        .modal-content {
+            font-size: 14px;
+            padding: 15px;
+        }
+
+        .modal-header .close {
+            width: 25px;
+            height: 25px;
+            font-size: 18px;
+        }
+
+    }
+
+    @@media (max-width: 480px) {
+        .text-center
+
+    {
+        top: 50%; /* Adjust position for smaller screens */
+        transform: translate(-50%, -50%);
+    }
+
+    .modal-content {
+        font-size: 14px; /* Smaller font for compact spaces */
+    }
+
+    }
+
+    .main-sidebar {
+        width: 250px;
+        position: fixed;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: #222d32;
+        color: #c2c7d0;
+        transition: width 0.3s ease;
+    }
+
+    /* Sidebar header (logo area) */
+    .brand-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #1e282c;
+        padding: 10px;
+        border-bottom: 1px solid #3c8dbc;
+    }
+
+    .brand-image {
+        max-height: 50px;
+        display: block;
+    }
+
+    /* Sidebar content */
+    .sidebar {
+        padding: 20px 10px;
+        font-size: 16px;
+        height: calc(100% - 60px); /* Adjust for logo height */
+        overflow-y: auto;
+    }
+
+    .user-panel {
+        margin-bottom: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #3c8dbc;
+    }
+
+        .user-panel .info a {
+            color: #c2c7d0;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+        }
+
+    /* Navigation */
+    .nav-sidebar {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .nav-sidebar li {
+            margin: 10px 0;
+        }
+
+            .nav-sidebar li a {
+                color: #c2c7d0;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+
+                .nav-sidebar li a:hover {
+                    background-color: #1e282c;
+                    color: #ffffff;
+                }
+
+        .nav-sidebar .active > a {
+            background-color: #3c8dbc;
+            color: #ffffff;
+        }
+
+        .nav-sidebar .nav-treeview {
+            margin-left: 20px;
+        }
+
+            .nav-sidebar .nav-treeview li a {
+                font-size: 13px;
+                padding-left: 30px;
+            }
+
+        /* Icon styling */
+        .nav-sidebar li a .nav-icon {
+            margin-right: 10px;
+        }
+
+    .fas, .far {
+        font-size: 18px;
+    }
+
+    /* Collapsed Sidebar */
+    .main-sidebar.collapsed {
+        width: 60px;
+    }
+
+        .main-sidebar.collapsed .brand-image {
+            max-height: 40px;
+        }
+
+        .main-sidebar.collapsed .sidebar-menu li a {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .main-sidebar.collapsed .nav-icon {
+            margin-right: 0;
+            display: block;
+        }
+</style>
+
+
+@await Html.PartialAsync("_adminPartial")
+
+
+
+<div class="text-center">
+    <div class="search-bar">
+        <select id="department-select" style="margin-right: 10px; padding: 10px;">
+            <option value="">اختر قسم</option>
+            <option value="الموارد البشرية">الموارد البشرية</option>
+            <option value="المالية">المالية</option>
+            <option value="تكنولوجيا المعلومات">تكنولوجيا المعلومات</option>
+            <!-- Add more departments here -->
+        </select>
+        <input id="search-input" type="text" Dir="rtl" placeholder="ادخل اسم الموظف ..." style="flex: 1; padding: 10px;" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+            <path d="M10 2a8 8 0 1 0 5.3 14.3l4.7 4.7a1 1 0 0 0 1.4-1.4l-4.7-4.7A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12A6 6 0 0 1 10 4z" />
+        </svg>
+    </div>
+    <ul id="results" class="results"></ul>
+</div>
+
+
+
+<div class="modal" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="close" aria-label="Close" onclick="$('#employeeModal').modal('hide');">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="employeeModalLabel" dir="rtl">معلومات الموظف</h5>
+            </div>
+            <div class="modal-body">
+                <table id="employee-info" class="table">
+                    <!-- Employee details will be dynamically inserted here -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+        document.getElementById("search-input").addEventListener("input", function () {
+        const query = this.value.trim();
+        const department = document.getElementById("department-select").value;
+        const resultsContainer = document.getElementById("results");
+
+        resultsContainer.innerHTML = "";
+        if (query.length === 0 && department === "") {
+            resultsContainer.classList.remove("show");
+            return;
+        }
+
+        fetch(`/Index?handler=Search&query=${encodeURIComponent(query)}&department=${encodeURIComponent(department)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    resultsContainer.classList.add("show");
+                    data.forEach(employee => {
+                        const li = document.createElement("li");
+
+                        const nameDiv = document.createElement("div");
+                        nameDiv.textContent = employee.name;
+                        nameDiv.className = "employee-name";
+
+                        const button = document.createElement("button");
+                        button.textContent = "عرض";
+                        button.className = "btn btn-info";
+                        button.style.backgroundColor = "#A7ADBE";
+                        button.style.borderColor = "#A7ADBE";
+                        button.onclick = function () {
+                            showEmployeeInfo(employee.id);
+                        };
+
+                        const containerDiv = document.createElement("div");
+                        containerDiv.className = "search-item";
+                        
+                        containerDiv.appendChild(button);
+                        containerDiv.appendChild(nameDiv);
+
+                        li.appendChild(containerDiv);
+                        resultsContainer.appendChild(li);
+                    });
+                } else {
+                    resultsContainer.classList.remove("show");
+                }
+            })
+            .catch(error => console.error("Error fetching search results:", error));
+    });
+
+
+    document.getElementById("department-select").addEventListener("change", function() {
+        const event = new Event('input');
+        document.getElementById("search-input").dispatchEvent(event);
+    });
+    
+
+    function showEmployeeInfo(employeeId) {
+        console.log(employeeId);
+        fetch(`/Index?handler=EmployeeDetails&id=${employeeId}`)
+            .then(response => response.json())
+            .then(jsonData => {
+                if (jsonData) {
+                    let infoContent = '';
+                    for (let key in jsonData) {
+                        if (jsonData[key] !== null && jsonData[key] !== '') {
+                            let arabicKey = translateToArabic(key);
+                            infoContent += `<tr><td dir="rtl" class='text-left'>${jsonData[key]}</td><td dir="rtl" class='text-right'><strong>${arabicKey}</strong></td></tr>`;
+                        }
+                    }
+                    document.getElementById('employee-info').innerHTML = infoContent;
+                    $('#employeeModal').modal('show');
+                } else {
+                    alert('No details found for this employee.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching employee details:', error);
+                alert('There was an error fetching the employee details.');
+            });
+    }
+
+    function translateToArabic(key) {
+        const translations = {
+            "name": "الاسم",
+            "email": "البريد الإلكتروني",
+            "localPhone": "الهاتف المحلي",
+            "department": "القسم",
+            "position": "الوظيفة",
+            "officeLocation": "موقع المكتب",
+            "otherNumbers": "أرقام أخرى",
+            "phoneNumber":"رقم الجوال",
+            "notes":"ملاحظات"
+
+        };
+        return translations[key] || key;
+    }
+</script>
