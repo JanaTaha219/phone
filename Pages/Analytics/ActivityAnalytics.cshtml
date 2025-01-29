@@ -1,0 +1,70 @@
+﻿@page
+@model AnalyticsModel
+@{
+    ViewData["Title"] = "تحليلات النشاط";
+}
+
+<!-- Include Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">تحليلات النشاط</h2>
+
+    <!-- Filter Form -->
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label for="startDate" class="form-label">تاريخ البداية:</label>
+            <input type="date" id="startDate" name="StartDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="endDate" class="form-label">تاريخ النهاية:</label>
+            <input type="date" id="endDate" name="EndDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="department" class="form-label">القسم:</label>
+            <select id="department" name="Department" class="form-select">
+                <option value="">الكل</option>
+                @foreach (var dept in Model.Departments)
+                {
+                    <option value="@dept" selected="@(Model.Department == dept ? "selected" : null)">@dept</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary px-4">بحث</button>
+            <a href="@Url.Content("~/Analytics/ActivityAnalytics")" class="btn btn-secondary px-4">مسح الفلاتر</a>
+        </div>
+    </form>
+
+
+
+    <!-- Table -->
+    <div class="table-responsive mt-4">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>الترتيب</th>
+                    <th>الاسم</th>
+                    <th> عدد عمليات البحث</th>
+                    <th>القسم</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.TopSearchedUsers.Select((user, index) => new { user, Rank = index + 1 }))
+                {
+                    <tr>
+                        <td><strong>@user.Rank</strong></td>
+                        <td>@user.user.Name</td>
+                        <td>@user.user.counter</td>
+                        <td>@user.user.Department</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

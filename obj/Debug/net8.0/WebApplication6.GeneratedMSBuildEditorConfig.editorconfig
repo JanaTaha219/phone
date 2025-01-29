@@ -52,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Analytics/ActivityAnalytics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5hbHl0aWNzXEFjdGl2aXR5QW5hbHl0aWNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,30 +74,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Roles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sZXNcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/AdminLTE/_Admin.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXEFkbWluTFRFXF9BZG1pbi5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/AdminLTE/_Auth.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXEFkbWluTFRFXF9BdXRoLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/AdminLTE/__css.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXEFkbWluTFRFXF9fY3NzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/AdminLTE/__js.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXEFkbWluTFRFXF9fanMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/AdminLTE/__navbar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXEFkbWluTFRFXF9fbmF2YmFyLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/AdminLTE/__sidebar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXEFkbWluTFRFXF9fc2lkZWJhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/RaJana/source/repos/WebApplication6/WebApplication6/Pages/Shared/_LoginPartial.cshtml]

@@ -23,5 +23,8 @@ namespace WebApplication6.Models
         {
             counter++;
         }
+
+        public List<SearchHistory> SearchHistories { get; set; }
+
     }
 }

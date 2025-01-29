@@ -467,9 +467,9 @@
     document.getElementById("department-select").addEventListener("change", function() {
         const event = new Event('input');
         document.getElementById("search-input").dispatchEvent(event);
+
     });
     
-
     function showEmployeeInfo(employeeId) {
         console.log(employeeId);
         fetch(`/Index?handler=EmployeeDetails&id=${employeeId}`)
@@ -494,6 +494,7 @@
                 alert('There was an error fetching the employee details.');
             });
     }
+      
 
     function translateToArabic(key) {
         const translations = {

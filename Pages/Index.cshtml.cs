@@ -63,8 +63,17 @@ namespace WebApplication6.Pages
                     return NotFound("Employee not found.");
                 }
 
-                _applicationDbContext.Employees.Attach(employee);
+                // Increment search counter
                 employee.counter++;
+
+                // Save search history
+                var searchHistory = new SearchHistory
+                {
+                    EmployeeId = employee.Id,
+                    SearchDate = DateTime.Now
+                };
+
+                _applicationDbContext.SearchHistories.Add(searchHistory);
                 await _applicationDbContext.SaveChangesAsync();
 
                 var employeeDetails = new
@@ -88,6 +97,7 @@ namespace WebApplication6.Pages
                 return new JsonResult(new Employee());
             }
         }
+
 
 
 

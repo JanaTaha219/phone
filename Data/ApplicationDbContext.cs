@@ -23,6 +23,8 @@ namespace WebApplication6.Data
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
         }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<SearchHistory> SearchHistories { get; set; }
+
 
     }
 }

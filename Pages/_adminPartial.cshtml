@@ -1,58 +1,319 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>Page Title</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .main-sidebar {
+            width: 250px;
+            position: fixed;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background-color: #ffffff; /* White background */
+            color: #333; /* Darker text for better contrast */
+            transition: width 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .brand-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa; /* Light gray background for brand */
+            padding: 10px;
+            border-bottom: 1px solid #ddd; /* Light border */
+        }
+
+        .brand-image {
+            max-width: auto; /* Ensure image fits within its container */
+            height: auto; /* Maintain aspect ratio */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar {
+            padding: 20px 10px;
+            font-size: 16px;
+            height: calc(100% - 60px);
+            overflow-y: auto;
+        }
+
+        .user-panel {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd; /* Light border */
+        }
+
+            .user-panel .info a {
+                color: #333; /* Darker text */
+                font-size: 14px;
+                text-decoration: none;
+                display: block;
+            }
+
+        .nav-sidebar {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .nav-sidebar li a {
+                color: #333; /* Darker text */
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
+                transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+            }
+
+                .nav-sidebar li a:hover {
+                    background-color: #e9ecef; /* Lighter gray background on hover */
+                    color: #007bff; /* Change text color on hover */
+                    transform: translateX(5px); /* Slight move to the right */
+                }
+
+            .nav-sidebar .active > a {
+                background-color: #3c8dbc;
+                color: #ffffff;
+            }
+
+            .nav-sidebar .nav-treeview {
+                margin-left: 20px;
+                display: none; /* Initially hide the nested lists */
+            }
+
+                .nav-sidebar .nav-treeview li a {
+                    font-size: 13px;
+                    padding-left: 30px;
+                }
+
+            .nav-sidebar li a .nav-icon {
+                margin-right: 10px;
+                width: 20px;
+                height: 20px;
+                transition: transform 0.3s ease; /* Smooth transition for icons */
+            }
+
+            .nav-sidebar li a:hover .nav-icon {
+                transform: scale(1.1); /* Slightly enlarge the icon on hover */
+            }
+
+        .main-sidebar.collapsed {
+            width: 60px;
+        }
+
+            .main-sidebar.collapsed .brand-image {
+                max-height: 40px;
+            }
+
+            .main-sidebar.collapsed .sidebar-menu li a {
+                justify-content: center;
+                padding: 10px;
+            }
+
+            .main-sidebar.collapsed .nav-icon {
+                margin-right: 0;
+                display: block;
+            }
+
+            .main-sidebar.collapsed .nav-sidebar li a p {
+                display: none;
+            }
+
+            .main-sidebar.collapsed .nav-sidebar li a i.fas.fa-angle-left.right {
+                display: none;
+            }
+
+            .main-sidebar.collapsed .nav-treeview {
+                display: none;
+            }
+
+        .main-sidebar:not(.collapsed) .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-sidebar li a svg {
+            width: 20px;
+            height: 20px;
+            transition: width 0.3s ease, height 0.3s ease;
+            margin-right: 10px; /* Space between icon and text */
+        }
+
+        .main-sidebar.collapsed .nav-sidebar li a svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: calc(100% - 250px);
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        .main-sidebar.collapsed + .main-content {
+            margin-left: 60px;
+            width: calc(100% - 60px);
+        }
+
+        
+    </style>
 </head>
 <body>
-    @if (User.IsInRole("Admin"))
-    {
-        <aside class="main-sidebar sidebar-light-primary elevation-4">
-            <!-- Brand Logo -->
-            <a asp-area="" asp-page="/Dashboards/DefaultDashboard" class="brand-link">
-                <img src="~/icons/najah.jpg" alt="Invoice generator" class="brand-image" style="height: 40%; width: 40%; display: block; margin-left: auto; margin-right: auto;">
-            </a>
+    <aside class="main-sidebar sidebar-light-primary elevation-4 collapsed">
+        <!-- Brand Logo -->
+        <a asp-area="" asp-page="/Dashboards/DefaultDashboard" class="brand-link">
+            <img src="~/icons/najah.jpg" alt="An-najah University" class="brand-image">
+        </a>
 
-            <div class="sidebar">
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image"></div>
-                    <div class="info">
-                        <a asp-area="" asp-page="/UserProfiles/UserList" class="d-block">User Profile</a>
-                    </div>
-                </div>
+        <div class="sidebar">
 
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        
 
-                        <!-- Roles Section -->
-                        <li class="nav-item @(ViewData["Module"]?.ToString() == "Roles" ? "menu-open" : "")">
-                            <a href="#" class="nav-link @(ViewData["Module"]?.ToString() == "Roles" ? "active" : "")">
-                                <i class="nav-icon fas fa-shopping-cart"></i>
-                                <p>
-                                    Roles
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/UserRoles/ManageRoles">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add/View Roles</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/UserRoles/index">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>User Role</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-    }
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Roles Section -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" style="display: flex; align-items: center; gap: 8px;">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="9" cy="9" r="2" stroke="#000000" stroke-width="1.5"></circle> <path d="M13 15C13 16.1046 13 17 9 17C5 17 5 16.1046 5 15C5 13.8954 6.79086 13 9 13C11.2091 13 13 13.8954 13 15Z" stroke="#000000" stroke-width="1.5"></path> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#000000" stroke-width="1.5"></path> <path d="M19 12H15" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path> <path d="M19 9H14" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path> <path d="M19 15H16" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
+
+                            <p style="margin: 0;">Roles <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/UserRoles/ManageRoles">
+                                    <p>Add/View Roles</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/UserRoles/index">
+
+                                    <p>User Role</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Account Management Section -->
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" style="display: flex; align-items: center; gap: 8px;">
+                            <svg fill="#00000" viewBox="0 0 52 52" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" stroke="#00000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M38.3,27.2A11.4,11.4,0,1,0,49.7,38.6,11.46,11.46,0,0,0,38.3,27.2Zm2,12.4a2.39,2.39,0,0,1-.9-.2l-4.3,4.3a1.39,1.39,0,0,1-.9.4,1,1,0,0,1-.9-.4,1.39,1.39,0,0,1,0-1.9l4.3-4.3a2.92,2.92,0,0,1-.2-.9,3.47,3.47,0,0,1,3.4-3.8,2.39,2.39,0,0,1,.9.2c.2,0,.2.2.1.3l-2,1.9a.28.28,0,0,0,0,.5L41.1,37a.38.38,0,0,0,.6,0l1.9-1.9c.1-.1.4-.1.4.1a3.71,3.71,0,0,1,.2.9A3.57,3.57,0,0,1,40.3,39.6Z"></path> <circle cx="21.7" cy="14.9" r="12.9"></circle> <path d="M25.2,49.8c2.2,0,1-1.5,1-1.5h0a15.44,15.44,0,0,1-3.4-9.7,15,15,0,0,1,1.4-6.4.77.77,0,0,1,.2-.3c.7-1.4-.7-1.5-.7-1.5h0a12.1,12.1,0,0,0-1.9-.1A19.69,19.69,0,0,0,2.4,47.1c0,1,.3,2.8,3.4,2.8H24.9C25.1,49.8,25.1,49.8,25.2,49.8Z"></path> </g></svg>
+
+                            <p style="margin: 0;">Account Manage <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/Account/Create">
+                                    <p>Create Account</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Account/Delete">
+                                    <p>Delete Account</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Account/Edit">
+                                    <p>Edit Account</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Requests Section -->
+
+                    
+
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" style="display: flex; align-items: center; gap: 8px;">
+                            <svg fill="#00000" viewBox="0 0 16 16" id="request-approval-16px" xmlns="http://www.w3.org/2000/svg" stroke="#00000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path id="Path_47" data-name="Path 47" d="M-19,12a2,2,0,0,0,2-2,2,2,0,0,0-2-2,2,2,0,0,0-2,2A2,2,0,0,0-19,12Zm0-3a1,1,0,0,1,1,1,1,1,0,0,1-1,1,1,1,0,0,1-1-1A1,1,0,0,1-19,9Zm2.5,4h-5A2.5,2.5,0,0,0-24,15.5,1.5,1.5,0,0,0-22.5,17h7A1.5,1.5,0,0,0-14,15.5,2.5,2.5,0,0,0-16.5,13Zm1,3h-7a.5.5,0,0,1-.5-.5A1.5,1.5,0,0,1-21.5,14h5A1.5,1.5,0,0,1-15,15.5.5.5,0,0,1-15.5,16ZM-8,3.5v5A2.5,2.5,0,0,1-10.5,11h-2.793l-1.853,1.854A.5.5,0,0,1-15.5,13a.489.489,0,0,1-.191-.038A.5.5,0,0,1-16,12.5v-2a.5.5,0,0,1,.5-.5.5.5,0,0,1,.5.5v.793l1.146-1.147A.5.5,0,0,1-13.5,10h3A1.5,1.5,0,0,0-9,8.5v-5A1.5,1.5,0,0,0-10.5,2h-7A1.5,1.5,0,0,0-19,3.5v3a.5.5,0,0,1-.5.5.5.5,0,0,1-.5-.5v-3A2.5,2.5,0,0,1-17.5,1h7A2.5,2.5,0,0,1-8,3.5Zm-6.854,4.354-2-2a.5.5,0,0,1,0-.708.5.5,0,0,1,.708,0L-14.5,6.793l2.646-2.647a.5.5,0,0,1,.708,0,.5.5,0,0,1,0,.708l-3,3A.5.5,0,0,1-14.5,8,.5.5,0,0,1-14.854,7.854Z" transform="translate(24 -1)"></path> </g></svg>                            <p>
+
+                            <p style="margin: 0;">Requests <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/UserRoles/index">
+
+                                    <p>Profile Change Requests</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <!-- Analytics Section -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" style="display: flex; align-items: center; gap: 8px;">
+                            <svg viewBox="-1 0 24 24" id="meteor-icon-kit__solid-analytics" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3 13C4.65685 13 6 14.3431 6 16V21C6 22.6569 4.65685 24 3 24C1.34315 24 0 22.6569 0 21V16C0 14.3431 1.34315 13 3 13zM11 0C12.6569 0 14 1.34315 14 3V21C14 22.6569 12.6569 24 11 24C9.3431 24 8 22.6569 8 21V3C8 1.34315 9.3431 0 11 0zM19 7C20.6569 7 22 8.34315 22 10V21C22 22.6569 20.6569 24 19 24C17.3431 24 16 22.6569 16 21V10C16 8.34315 17.3431 7 19 7z" fill="#000000"></path>
+                            </svg>
+                            <p style="margin: 0;">Analytics <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/Analytics/ActivityAnalytics">
+                                    <p>Most Searched Users</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    
+
+
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <script>
+        const sidebar = document.querySelector('.main-sidebar');
+        const body = document.body;
+
+        sidebar.addEventListener('mouseenter', () => {
+            sidebar.classList.remove('collapsed');
+            body.style.paddingLeft = '250px';
+        });
+
+        sidebar.addEventListener('mouseleave', () => {
+            sidebar.classList.add('collapsed');
+            body.style.paddingLeft = '60px';
+        });
+
+        // Add event listeners to toggle the nested lists
+        const navLinks = document.querySelectorAll('.nav-sidebar > li > a');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                const parentLi = this.parentElement;
+                const nestedUl = parentLi.querySelector('.nav-treeview');
+
+                if (nestedUl) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    nestedUl.style.display = nestedUl.style.display === 'block' ? 'none' : 'block';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
